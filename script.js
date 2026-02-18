@@ -1,12 +1,55 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Add staggered animation delay to cards
-    const cards = document.querySelectorAll('.link-card');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.animation = `fadeIn 0.5s ease-out forwards ${index * 0.1 + 0.2}s`;
+    // --- Custom Cursor Logic ---
+    const dot = document.querySelector('.cursor-dot');
+    const outline = document.querySelector('.cursor-outline');
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Immediate move for the dot
+        dot.style.left = `${mouseX}px`;
+        dot.style.top = `${mouseY}px`;
     });
 
-    // 3D Tilt Effect (Lightweight)
+    // Smooth follower for the outline
+    const animateCursor = () => {
+        const easing = 0.15; // Smoothness factor
+        
+        outlineX += (mouseX - outlineX) * easing;
+        outlineY += (mouseY - outlineY) * easing;
+        
+        outline.style.left = `${outlineX}px`;
+        outline.style.top = `${outlineY}px`;
+        
+        requestAnimationFrame(animateCursor);
+    };
+    animateCursor();
+
+    // Hover state functionality
+    const interactiveElements = document.querySelectorAll('a, button, .avatar-wrapper');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            document.body.classList.add('cursor-hover');
+        });
+        el.addEventListener('mouseleave', () => {
+            document.body.classList.remove('cursor-hover');
+        });
+    });
+
+    // --- Staggered Entrance Animation ---
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.animation = `slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${index * 0.1 + 0.4}s`;
+    });
+
+    // --- Premium 3D Tilt Effect ---
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -16,8 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            const rotateX = ((y - centerY) / centerY) * -5; // Max rotation deg
-            const rotateY = ((x - centerX) / centerX) * 5;
+            // Subtle rotation
+            const rotateX = ((y - centerY) / centerY) * -4; 
+            const rotateY = ((x - centerX) / centerX) * 4;
 
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
         });
@@ -27,5 +71,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    console.log("Business Card Loaded - Minimalist Luxury Theme");
+    console.log("Modern Glassmorphism Design (V2 - Russian) Loaded");
 });
