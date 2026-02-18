@@ -14,27 +14,45 @@ document.addEventListener('DOMContentLoaded', () => {
     let dotPos = { x: 0, y: 0 };
     let blobPos = { x: 0, y: 0 };
     
-    // --- 1. Cinematic Preloader Logic ---
-    let count = 0;
-    const countEl = document.querySelector('.loader-counter .count');
+    // --- Cinematic Matrix Preloader Logic ---
+    const terminalBody = document.getElementById('terminal-body');
     const barEl = document.querySelector('.loader-bar');
+    
+    const messages = [
+        "> INITIALIZING SYSTEM_CORE...",
+        "> DECRYPTING VISUAL_LAYERS...",
+        "> ACCESSING KINODEL_DATABASE...",
+        "> BYPASSING PHYSICAL_LIMITS...",
+        "> LOADING STORYTELLING_ENGINE...",
+        "> SYNCHRONIZING REALITY...",
+        "> STATUS: READY TO BROADCAST"
+    ];
 
-    const updateLoader = () => {
-        // Human-like staggered progress
-        const increment = count < 60 ? Math.random() * 8 : (count < 90 ? Math.random() * 3 : Math.random() * 0.5);
-        count += increment;
-
-        if (count >= 100) {
-            count = 100;
-            countEl.textContent = "100";
-            barEl.style.width = "100%";
-            setTimeout(revealSite, 400);
+    let currentLine = 0;
+    
+    const typeLine = () => {
+        if (currentLine >= messages.length) {
+            setTimeout(revealSite, 600);
             return;
         }
 
-        countEl.textContent = Math.floor(count).toString().padStart(2, '0');
-        barEl.style.width = `${count}%`;
-        requestAnimationFrame(updateLoader);
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        line.textContent = messages[currentLine];
+        terminalBody.appendChild(line);
+        
+        // Scroll to bottom
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+
+        // Progress bar sync
+        const progress = ((currentLine + 1) / messages.length) * 100;
+        barEl.style.width = `${progress}%`;
+
+        currentLine++;
+        
+        // Randomized typing speed for realism
+        const nextDelay = currentLine === messages.length ? 800 : Math.random() * 400 + 200;
+        setTimeout(typeLine, nextDelay);
     };
 
     const revealSite = () => {
@@ -42,11 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             appContainer.classList.add('ready');
             preloader.style.pointerEvents = 'none';
-        }, 600);
+        }, 800);
     };
 
-    // Kick off loader
-    setTimeout(updateLoader, 200);
+    // Kick off loader with small delay
+    setTimeout(typeLine, 500);
 
     // --- 2. Advanced Cursor Engine ---
     window.addEventListener('mousemove', (e) => {

@@ -46,82 +46,94 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* --- Hyper Preloader --- */
+/* --- Matrix Terminal Preloader --- */
 #preloader {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 50000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    position: fixed; inset: 0;
+    background: #000; z-index: 50000;
+    display: flex; justify-content: center; align-items: center;
+    padding: 2rem;
 }
 
-.loader-bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, #111 0%, #000 100%);
-}
-
-.loader-content {
-    position: relative;
-    z-index: 2;
+.terminal-container {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.1);
 }
 
-.loader-counter {
+.terminal-header {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.75rem 1rem;
     display: flex;
-    align-items: baseline;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.terminal-header .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.terminal-title {
     font-family: var(--font-head);
-    font-weight: 900;
-    margin-bottom: 2rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    margin-left: auto;
 }
 
-.loader-counter .count {
-    font-size: clamp(8rem, 20vw, 12rem);
-    line-height: 0.8;
-    letter-spacing: -0.05em;
-    background: linear-gradient(to bottom, #fff 30%, rgba(255,255,255,0.1));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.loader-counter .unit {
-    font-size: 1.5rem;
+.terminal-body {
+    padding: 1.5rem;
+    height: 300px;
+    overflow-y: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
     color: var(--accent);
-    margin-left: 0.5rem;
+    line-height: 1.5;
+    text-shadow: 0 0 5px var(--accent-glow);
+    position: relative;
 }
+
+.terminal-body::before {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.terminal-body::after {
+    content: "_";
+    animation: terminal-cursor 0.8s infinite;
+}
+
+@keyframes terminal-cursor { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+
+.terminal-line { margin-bottom: 0.4rem; opacity: 0; transform: translateY(5px); animation: terminal-line-fade 0.3s forwards; }
+@keyframes terminal-line-fade { to { opacity: 1; transform: translateY(0); } }
 
 .loader-bar-container {
-    width: 60%;
-    height: 2px;
-    background: rgba(255,255,255,0.05);
+    width: 100%; height: 2px;
+    background: rgba(255, 255, 255, 0.05);
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-top: auto;
 }
 
 .loader-bar {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    width: 0%;
+    position: absolute; top: 0; left: 0; height: 100%; width: 0%;
     background: var(--accent);
     box-shadow: 0 0 20px var(--accent-glow);
     transition: width 0.1s linear;
-}
-
-.loader-status {
-    font-family: var(--font-head);
-    font-size: 0.6rem;
-    letter-spacing: 0.6em;
-    color: var(--text-dim);
-    text-transform: uppercase;
 }
 
 #preloader.loaded {
@@ -309,6 +321,15 @@ body {
     margin-right: 1.5rem;
     flex-shrink: 0;
     transition: transform 0.6s var(--ease-out);
+    overflow: hidden; /* CRITICAL: Prevent image breakout */
+    position: relative;
+}
+
+.constrained-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .glass-card:hover .card-icon {
