@@ -1,6 +1,6 @@
 /* 
-   Authentic Matrix Digital Rain Engine v7.0
-   Design: Cinema Edition
+   Authentic Matrix Digital Rain Engine v8.0
+   Design: Cinema Hyper-Premium Edition
    Developer: Antigravity Art
 */
 
@@ -13,37 +13,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const dot = document.querySelector('.cursor-dot');
     const blob = document.querySelector('.cursor-blob');
     
-    // --- Resize Canvas ---
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    
-    window.addEventListener('resize', () => {
+    // --- Resize & Setup ---
+    let width, height, columns, drops;
+    const fontSize = 11; // Smaller and denser rain
+
+    const setupCanvas = () => {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
         columns = Math.floor(width / fontSize);
         drops = Array(columns).fill(1).map(() => Math.random() * -100);
-    });
+    };
+    setupCanvas();
+    window.addEventListener('resize', setupCanvas);
 
     // --- Matrix Rain Logic ---
     const characters = "01アァカサタナハマヤャラワガザダバパイィキシチニヒミリギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
-    const fontSize = 16;
-    let columns = Math.floor(width / fontSize);
-    let drops = Array(columns).fill(1).map(() => Math.random() * -100);
     
-    // Name Formation Logic
+    // Name Formation Settings
     const targetName = "ВАСИЛИЙ КУЗНЕЦОВ";
     let isRevealingName = false;
     let startRevealTime = 0;
-    const revealDuration = 3000; // 3 seconds to form name
-
-    // Position of name (centered)
-    const nameFontSize = 40;
-    const nameY = height / 2;
-    const nameXStart = (width - (targetName.length * nameFontSize * 0.7)) / 2;
+    const revealDuration = 4000; // 4 seconds to form name
 
     const draw = () => {
-        // Subtle tail trail
-        ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+        // Blur only the rain layer
+        ctx.filter = 'blur(1.2px)';
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
         ctx.fillRect(0, 0, width, height);
 
         ctx.font = `${fontSize}px monospace`;
@@ -51,67 +46,84 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < drops.length; i++) {
             const text = characters.charAt(Math.floor(Math.random() * characters.length));
             
-            // Bright lead character
-            ctx.fillStyle = "#fff";
+            // Neon Green Trail
+            ctx.fillStyle = "rgba(0, 255, 65, 0.35)";
             ctx.fillText(text, i * fontSize, drops[i] * fontSize);
             
-            // Fading trail
-            ctx.fillStyle = "#0f0";
-            ctx.shadowBlur = 4;
-            ctx.shadowColor = "#0f0";
-            ctx.fillText(text, i * fontSize, (drops[i] - 1) * fontSize);
-            ctx.shadowBlur = 0;
+            // Bright lead character (no blur for lead if possible, but canvas filter applies to all previous)
+            if (Math.random() > 0.9) {
+                ctx.fillStyle = "#fff";
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            }
 
-            if (drops[i] * fontSize > height && Math.random() > 0.975) {
+            if (drops[i] * fontSize > height && Math.random() > 0.985) {
                 drops[i] = 0;
             }
-            drops[i]++;
+            drops[i] += 0.8; // Slightly slower, more cinematic flow
         }
 
+        // Reset blur for the name
+        ctx.filter = 'none';
         if (isRevealingName) {
-            drawNameCoalescence();
+            drawVolumetricName();
         }
         
         requestAnimationFrame(draw);
     };
 
-    const drawNameCoalescence = () => {
+    const drawVolumetricName = () => {
         const now = Date.now();
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
-        ctx.font = `900 ${nameFontSize}px var(--font-head)`;
-        ctx.textAlign = "left";
+        const isMobile = width < 768;
+        const baseSize = isMobile ? Math.min(width / 10, 45) : Math.min(width / 15, 75);
+        ctx.font = `900 ${baseSize}px var(--font-head)`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
 
-        for (let i = 0; i < targetName.length; i++) {
-            const char = targetName[i];
-            const x = nameXStart + (i * nameFontSize * 0.75);
+        const lines = isMobile ? ["ВАСИЛИЙ", "КУЗНЕЦОВ"] : ["ВАСИЛИЙ КУЗНЕЦОВ"];
+        const lineHeight = baseSize * 1.2;
+
+        lines.forEach((line, index) => {
+            const y = (height / 2) - ((lines.length - 1) * lineHeight / 2) + (index * lineHeight);
             
-            // Glow intensity increases with progress
-            const alpha = progress * 1.0;
-            const glow = progress * 20;
-
             if (progress > 0.1) {
-                // Background shadow for readability
-                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-                ctx.fillText(char, x, nameY);
+                // 1. Deep Shadow (Volumetric Depth)
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+                ctx.fillText(line, width/2 + 4, y + 4);
 
-                // Flickering Matrix GLow
-                ctx.shadowBlur = glow;
+                // 2. Core Glow
+                ctx.shadowBlur = 15 * progress;
                 ctx.shadowColor = "#00ff41";
-                ctx.fillStyle = `rgba(0, 255, 65, ${alpha})`;
                 
-                // Random characters before locking
-                const displayChar = (progress < 0.9 && Math.random() > progress) 
-                    ? characters.charAt(Math.floor(Math.random() * characters.length)) 
-                    : char;
-                
-                ctx.fillText(displayChar, x, nameY);
+                // 3. Multi-layered Volumetric Fill
+                // Draw multiple times with slight offsets for "bulkiness"
+                const layers = 3;
+                for(let l = 0; l < layers; l++) {
+                    ctx.fillStyle = `rgba(0, 255, 65, ${0.4 + (progress * 0.6)})`;
+                    ctx.fillText(line, width/2 - (l*0.5), y - (l*0.5));
+                }
+
+                // 4. Highlight Layer (Sharp White Edge)
+                if (progress > 0.8) {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${(progress - 0.8) * 5})`;
+                    ctx.fillText(line, width/2, y);
+                }
+
+                // 5. Glitch Overlay (Random chars before lock)
+                if (progress < 0.95) {
+                    ctx.fillStyle = "#fff";
+                    const glitchLine = line.split('').map(c => (Math.random() > progress ? characters[Math.floor(Math.random()*characters.length)] : c)).join('');
+                    ctx.fillText(glitchLine, width/2, y);
+                }
+
                 ctx.shadowBlur = 0;
             }
-        }
+        });
 
         if (progress === 1) {
-            setTimeout(revealSite, 1000);
+            setTimeout(revealSite, 1200);
         }
     };
 
@@ -126,11 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start Sequence
     setTimeout(() => {
         draw();
-        // Start name reveal after some initial rain
         setTimeout(() => {
             isRevealingName = true;
             startRevealTime = Date.now();
-        }, 2000);
+        }, 1500);
     }, 100);
 
     // --- Cursor & Interactions (Restored) ---
@@ -171,5 +182,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("Matrix Rain Core V7.0 - Active");
+    console.log("Matrix Rain Core V8.0 - Hyper-Cinematic Active");
 });
