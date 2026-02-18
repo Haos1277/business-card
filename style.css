@@ -161,7 +161,8 @@ body {
 
 .profile-name {
     font-family: var(--font-head);
-    font-size: clamp(1.4rem, 4.5vw, 2.2rem); /* Reduced to half for balance */
+    font-size: clamp(1.2rem, 4vw, 1.9rem); /* Confirmed 1/2 of original size */
+ /* Reduced to half for balance */
     font-weight: 900;
     line-height: 0.9;
     letter-spacing: -0.06em;
@@ -335,7 +336,7 @@ body {
 /* Mobile Adjustments */
 @media (max-width: 480px) {
     .app-container { padding: 4rem 1.2rem; }
-    .profile-name { font-size: 1.6rem; }
+    .profile-name { font-size: 1.4rem; }
     .avatar-frame { width: 140px; height: 140px; }
     .loader-counter .count { font-size: 7rem; }
 }
