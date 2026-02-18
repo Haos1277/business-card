@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
         const isMobile = width < 768;
-        // V12 Refined Multiplier (Reduced by 50% for perfect balance)
-        const baseSize = isMobile ? Math.min(width * 0.15, 75) : Math.min(width * 0.1, 140);
+        // V13 Precise Scale (Hard limit of 50px as requested)
+        const baseSize = isMobile ? Math.min(width * 0.15, 50) : 50;
         ctx.font = `900 ${baseSize}px 'Unbounded', 'Outfit', sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -179,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("MATRIX_CORE_VERSION: 12.0 - Active");
+    console.log("MATRIX_CORE_VERSION: 13.0 - Active");
 });
