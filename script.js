@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetName = "ВАСИЛИЙ КУЗНЕЦОВ";
     let isRevealingName = false;
     let startRevealTime = 0;
-    const revealDuration = 3500; 
+    const revealDuration = 4500; 
 
     const draw = () => {
         // Dynamic background opacity (suppresses rain as name forms)
