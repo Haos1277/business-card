@@ -1,4 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Preloader Logic ---
+    const preloader = document.getElementById('preloader');
+    const percentDisplay = document.querySelector('.loader-percent');
+    const finishBar = document.querySelector('.loader-finish-bar');
+    let count = 0;
+    
+    // Плавный счетчик процентов
+    const counterInterval = setInterval(() => {
+        // Ускоряем в начале, замедляем к концу для реализма
+        const step = count < 85 ? Math.floor(Math.random() * 5) + 1 : 1;
+        count += step;
+        
+        if (count >= 100) {
+            count = 100;
+            clearInterval(counterInterval);
+            finishLoading();
+        }
+        
+        percentDisplay.textContent = count;
+        if (finishBar) finishBar.style.width = `${count}%`;
+    }, 40);
+
+    function finishLoading() {
+        setTimeout(() => {
+            preloader.classList.add('loaded');
+            document.body.style.cursor = 'none'; // Re-enable custom cursor view
+            
+            // Запуск анимаций контента после скрытия прелоадера
+            startEntranceAnimations();
+        }, 600);
+    }
+
     // --- Advanced Liquid Cursor Logic ---
     const dot = document.querySelector('.cursor-dot');
     const blob = document.querySelector('.cursor-blob');
@@ -67,17 +99,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Entrance Animations Cascade ---
-    const elements = document.querySelectorAll('.glass-card, .profile-header, .section-label');
-    elements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        
-        setTimeout(() => {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-        }, 100 * index + 300);
-    });
+    function startEntranceAnimations() {
+        const container = document.querySelector('.app-container');
+        if (container) container.style.opacity = '1';
+
+        const elements = document.querySelectorAll('.glass-card, .profile-header, .section-label');
+        elements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100 * index + 100);
+        });
+    }
 
     console.log("Visual Storytelling Card Engine - Initialized");
 });
