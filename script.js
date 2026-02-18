@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
         const isMobile = width < 768;
-        // STUPIDLY LARGE SMOKE TEST SCALE (V9.2)
-        const baseSize = isMobile ? Math.min(width * 0.35, 250) : Math.min(width * 0.25, 700);
+        // V9.4 SUPER-ULTRA SCALE
+        const baseSize = isMobile ? Math.min(width * 0.45, 300) : Math.min(width * 0.35, 1000);
         ctx.font = `900 ${baseSize}px var(--font-head), 'Unbounded', sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -179,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("MATRIX_CORE_VERSION: 9.3 [FINAL_BALANCE] - Active");
+    console.log("MATRIX_CORE_VERSION: 9.4 [SUPER_ULTRA] - Active");
 });
