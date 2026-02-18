@@ -1,4 +1,4 @@
-/* Modern Fluid Glass Design - v4.0 */
+/* Modern Mobile-First Glass Design - Final Version */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -7,171 +7,190 @@
 }
 
 :root {
-    --bg: #010103;
-    --text: #ffffff;
-    --sub: #94a3b8;
-    --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.08);
-    --accent: #06b6d4;
-    --accent-glow: rgba(6, 182, 212, 0.3);
-    --purple: #8b5cf6;
-    --radius: 28px;
-    --font: 'Inter', sans-serif;
-    --head: 'Outfit', sans-serif;
+    --bg-dark: #010103;
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
+    --glass: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-hover: rgba(255, 255, 255, 0.08);
+    --accent-cyan: #06b6d4;
+    --accent-purple: #8b5cf6;
+    --radius: 26px;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --transition: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-    line-height: 1.5;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.6;
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 3rem 1rem;
+    padding: 3rem 1.25rem;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 
 /* --- Жидкий курсор --- */
 .cursor-dot {
-    width: 6px; height: 6px; background: var(--accent);
+    width: 6px; height: 6px; background: var(--accent-cyan);
     position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
     border-radius: 50%; z-index: 10000; pointer-events: none;
 }
 
 .cursor-blob {
-    width: 32px; height: 32px; border: 1px solid var(--accent);
+    width: 32px; height: 32px; border: 1px solid var(--accent-cyan);
     position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
     border-radius: 50%; z-index: 9999; pointer-events: none;
-    background: rgba(6, 182, 212, 0.05);
-    transition: width 0.3s, height 0.3s, background 0.3s;
+    background: rgba(6, 182, 212, 0.03);
+    transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
 }
 
 .cursor-hover .cursor-dot { width: 10px; height: 10px; background: #fff; }
 .cursor-hover .cursor-blob { 
-    width: 60px; height: 60px; 
-    background: rgba(255,255,255,0.1); 
+    width: 64px; height: 64px; 
+    background: rgba(255, 255, 255, 0.1); 
     border-color: #fff;
+    border-width: 2px;
 }
 
-/* --- Фон Aurora --- */
-.bg-wrapper {
+/* --- Анимированный фон (Aurora) --- */
+.background-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
 }
 
-.blob-gradient {
-    position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4;
-    animation: floating 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+.aurora-blob {
+    position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.45;
+    animation: aurora-move 22s infinite alternate ease-in-out;
 }
 
-.bg-1 { top: -10%; left: -5%; width: 50vw; height: 50vw; background: var(--purple); }
-.bg-2 { bottom: -10%; right: -5%; width: 55vw; height: 55vw; background: var(--accent); animation-delay: -7s; }
-.bg-3 { top: 35%; left: 35%; width: 35vw; height: 35vw; background: #ec4899; opacity: 0.25; animation-delay: -12s; }
+.aurora-1 { top: -10%; left: -5%; width: 60vw; height: 60vw; background: var(--accent-purple); }
+.aurora-2 { bottom: -15%; right: -5%; width: 65vw; height: 65vw; background: var(--accent-cyan); animation-delay: -5s; }
+.aurora-3 { top: 35%; left: 30%; width: 40vw; height: 40vw; background: #ec4899; opacity: 0.25; animation-delay: -10s; }
 
-@keyframes floating {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(40px, 80px) scale(1.1); }
+@keyframes aurora-move {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1.0); }
+    100% { transform: translate(50px, 120px) rotate(45deg) scale(1.1); }
 }
 
-/* --- Центральная верстка --- */
-.layout { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 2rem; position: relative; }
+/* --- Контейнер приложения --- */
+.app-container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 2.2rem; position: relative; }
 
-/* --- Заголовок --- */
-.hero { text-align: center; display: flex; flex-direction: column; align-items: center; }
+/* --- Заголовок профиля --- */
+.profile-header { text-align: center; display: flex; flex-direction: column; align-items: center; }
 
 .avatar-frame {
-    position: relative; width: 150px; height: 150px; margin-bottom: 1.5rem;
-    border-radius: 50%; padding: 4px; background: linear-gradient(135deg, var(--purple), var(--accent));
-    box-shadow: 0 0 30px var(--accent-glow);
+    position: relative; width: 155px; height: 155px; margin-bottom: 1.5rem;
+    border-radius: 50%; padding: 4px; background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+    box-shadow: 0 0 35px rgba(6, 182, 212, 0.3);
 }
 
-.avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); background: var(--bg); }
+.avatar-img { 
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover; 
+    border: 5px solid var(--bg-dark); background: var(--bg-dark); 
+}
 
-.main-name {
-    font-family: var(--head); font-size: 2.8rem; font-weight: 800; letter-spacing: -0.04em;
-    margin-bottom: 0.4rem; background: linear-gradient(to bottom, #fff, #94a3b8);
+.profile-name {
+    font-family: var(--font-heading); font-size: 3rem; font-weight: 800; letter-spacing: -0.04em;
+    margin-bottom: 0.5rem; background: linear-gradient(to bottom, #ffffff, #94a3b8);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-.special-badge {
-    background: rgba(255,255,255,0.08); padding: 0.4rem 1.1rem; border-radius: 100px;
-    font-size: 0.8rem; font-weight: 700; color: var(--accent); border: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 1.25rem; backdrop-filter: blur(10px); text-transform: uppercase; letter-spacing: 0.12em;
+.profile-badge {
+    background: rgba(255,255,255,0.07); padding: 0.45rem 1.25rem; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 700; color: var(--accent-cyan); border: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 1.4rem; backdrop-filter: blur(10px); text-transform: uppercase; letter-spacing: 0.12em;
 }
 
-.bio-text { color: var(--sub); font-size: 1.1rem; line-height: 1.5; }
-.bio-main { display: block; color: #fff; font-weight: 600; margin-bottom: 4px; }
-.bio-sub { font-size: 0.9rem; opacity: 0.7; }
+.profile-bio { color: var(--text-muted); font-size: 1.15rem; line-height: 1.5; }
+.bio-primary { display: block; color: #fff; font-weight: 600; margin-bottom: 3px; }
+.bio-secondary { font-size: 0.95rem; opacity: 0.75; }
 
-/* --- Секции --- */
-.group-label, .label { 
-    font-family: var(--head); color: var(--sub); font-size: 0.75rem; 
-    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.75rem; 
-    padding-left: 0.5rem; opacity: 0.5; 
+/* --- Секции и ярлыки --- */
+.section-label { 
+    font-family: var(--font-heading); color: var(--text-muted); font-size: 0.75rem; 
+    text-transform: uppercase; letter-spacing: 0.22em; margin-bottom: 0.8rem; 
+    padding-left: 0.5rem; opacity: 0.6; 
 }
 
 /* --- Стеклянные карточки --- */
 .glass-card {
-    background: var(--glass); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 1.15rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;
-    color: var(--text); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; overflow: hidden;
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius);
+    padding: 1.25rem; display: flex; align-items: center; gap: 1.25rem; text-decoration: none;
+    color: var(--text-main); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    transition: all 0.45s var(--transition); position: relative; overflow: hidden;
 }
 
 .glass-card:hover {
-    background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2);
-    transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 40px -10px rgba(0,0,0,0.6);
+    background: var(--glass-hover); border-color: rgba(255,255,255,0.22);
+    transform: translateY(-6px) scale(1.02); 
+    box-shadow: 0 22px 55px -12px rgba(0,0,0,0.7);
 }
 
-.school-card { border-color: rgba(6, 182, 212, 0.3); background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(139, 92, 246, 0.05)); }
-.school-glow { position: absolute; inset: 0; background: radial-gradient(circle at 100% 0%, var(--accent-glow), transparent); opacity: 0.4; }
-
-/* --- Иконки --- */
-.box-icon { 
-    width: 50px; height: 50px; border-radius: 15px; 
-    background: rgba(255,255,255,0.05); 
-    border: 1px solid rgba(255,255,255,0.1); 
-    display: flex; justify-content: center; align-items: center; 
-    transition: 0.4s; flex-shrink: 0; 
-    color: #fff; /* Явный белый цвет */
+.school-card { 
+    border-color: rgba(6, 182, 212, 0.4); 
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.16), rgba(139, 92, 246, 0.08)); 
 }
 
-.glass-card:hover .box-icon { background: #fff; color: #000; transform: rotate(-8deg) scale(1.05); }
+.school-decoration { position: absolute; inset: 0; background: radial-gradient(circle at 100% 0%, rgba(6, 182, 212, 0.4), transparent 70%); }
 
-/* Исправление видимости SVG */
-.box-icon svg, .circle-icon svg {
-    width: 24px; height: 24px;
-    display: block; opacity: 1 !important;
-}
-
-.box-content { flex: 1; display: flex; flex-direction: column; }
-.box-title { font-weight: 600; font-size: 1.05rem; }
-.box-subtitle { font-size: 0.85rem; color: var(--sub); margin-top: 1px; }
-.box-arrow { font-size: 1.2rem; opacity: 0.2; transition: 0.3s; }
-.glass-card:hover .box-arrow { opacity: 1; transform: translateX(6px); color: var(--accent); }
-
-/* --- Сетка (Grid) --- */
-.flex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.grid-card { flex-direction: column; align-items: center; padding: 1.5rem; text-align: center; }
-
-.img-preview, .circle-icon { 
-    width: 50px; height: 50px; border-radius: 14px; 
-    overflow: hidden; background: rgba(255,255,255,0.06); 
+/* --- Иконки и Логотипы --- */
+.card-icon, .grid-preview, .school-logo-box {
+    width: 52px; height: 52px; border-radius: 16px; 
+    background: rgba(255,255,255,0.06); 
     border: 1px solid rgba(255,255,255,0.12); 
-    display: flex; align-items: center; justify-content: center; 
-    margin-bottom: 0.75rem; color: #fff;
+    display: flex; justify-content: center; align-items: center; 
+    transition: 0.4s ease; flex-shrink: 0; 
+    overflow: hidden;
 }
 
-.img-preview img { width: 100%; height: 100%; object-fit: cover; }
-.grid-title { font-weight: 600; font-size: 0.95rem; }
+.glass-card:hover .card-icon, 
+.glass-card:hover .grid-preview,
+.glass-card:hover .school-logo-box { 
+    background: #ffffff; color: #000; transform: rotate(-8deg) scale(1.1); 
+}
+
+/* Исправленная видимость для мобильных */
+svg { display: block; filter: drop-shadow(0 0 1px rgba(255,255,255,0.1)); }
+
+.card-info { flex: 1; display: flex; flex-direction: column; }
+.card-title { font-weight: 600; font-size: 1.15rem; letter-spacing: -0.01em; }
+.card-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-top: 1px; }
+.card-arrow { font-size: 1.4rem; opacity: 0.2; transition: 0.3s; }
+.glass-card:hover .card-arrow { opacity: 1; transform: translateX(8px); color: var(--accent-cyan); }
+
+/* Школа AI - Логотип */
+.school-img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+
+/* --- Сетка (Community Grid) --- */
+.grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.grid-card { flex-direction: column; align-items: center; padding: 1.6rem; text-align: center; }
+
+.grid-preview { margin-bottom: 0.9rem; width: 56px; height: 56px; border-radius: 18px; }
+.grid-preview img { width: 100%; height: 100%; object-fit: cover; }
+.grid-preview.icon-only { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+.grid-card-title { font-weight: 600; font-size: 1.05rem; }
 
 /* --- Анимации появления --- */
-.slideUp { opacity: 0; animation: slideIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+.slideUp { opacity: 0; animation: entrance-slide 1.2s var(--transition) forwards; }
+@keyframes entrance-slide { 
+    from { opacity: 0; transform: translateY(60px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
 
-.bottom-info { text-align: center; color: rgba(255,255,255,0.25); font-size: 0.8rem; margin-top: 2rem; }
+.footer-section { text-align: center; color: rgba(255,255,255,0.2); font-size: 0.85rem; margin-top: 3rem; margin-bottom: 1rem; }
 
 /* --- Адаптивность --- */
-@media (max-width: 420px) { .main-name { font-size: 2.3rem; } .glass-card { padding: 1rem; } }
-@media (hover: none) { .cursor-dot, .cursor-blob { display: none; } * { cursor: auto; } }
+@media (max-width: 440px) {
+    .profile-name { font-size: 2.5rem; }
+    .glass-card { padding: 1.1rem; gap: 1rem; }
+    .card-icon, .school-logo-box { width: 48px; height: 48px; }
+}
+
+@media (hover: none) {
+    .cursor-dot, .cursor-blob { display: none !important; }
+    * { cursor: auto !important; }
+}

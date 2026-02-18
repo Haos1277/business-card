@@ -1,66 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Жидкий курсор (Advanced Liquid Cursor) ---
+    // --- Advanced Liquid Cursor Logic ---
     const dot = document.querySelector('.cursor-dot');
     const blob = document.querySelector('.cursor-blob');
     
-    let mouse = { x: 0, y: 0 };
-    let blobPos = { x: 0, y: 0 };
-    let speed = 0.15; // Плавность следования основного круга
-
+    let mouseX = 0, mouseY = 0;
+    let blobX = 0, blobY = 0;
+    
+    // Плавное следование шлейфа за курсором
+    const dotSpeed = 1; // Точка следует мгновенно
+    const blobSpeed = 0.15; // Шлейф тянется плавно
+    
     window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
         
-        // Маленькая точка двигается мгновенно
-        dot.style.left = `${mouse.x}px`;
-        dot.style.top = `${mouse.y}px`;
+        // Маленькая точка двигается сразу
+        dot.style.left = `${mouseX}px`;
+        dot.style.top = `${mouseY}px`;
     });
 
-    // Анимация "плавающего" круга
-    const tick = () => {
-        blobPos.x += (mouse.x - blobPos.x) * speed;
-        blobPos.y += (mouse.y - blobPos.y) * speed;
+    const animate = () => {
+        // Рассчитываем положение "жидкого" шлейфа через интерполяцию
+        blobX += (mouseX - blobX) * blobSpeed;
+        blobY += (mouseY - blobY) * blobSpeed;
         
-        blob.style.left = `${blobPos.x}px`;
-        blob.style.top = `${blobPos.y}px`;
+        blob.style.left = `${blobX}px`;
+        blob.style.top = `${blobY}px`;
         
-        requestAnimationFrame(tick);
+        requestAnimationFrame(animate);
     };
-    tick();
+    animate();
 
-    // Состояния наведения
-    const targets = document.querySelectorAll('a, .avatar-frame, .img-preview');
-    targets.forEach(el => {
-        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    // Эффекты наведения
+    const targets = document.querySelectorAll('a, .avatar-frame, .school-logo-box');
+    
+    targets.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            document.body.classList.add('cursor-hover');
+        });
+        link.addEventListener('mouseleave', () => {
+            document.body.classList.remove('cursor-hover');
+        });
     });
 
-    // --- Интерактивные карточки (Parallax & Entrance) ---
+    // --- 3D Card Tilt Effect ---
     const cards = document.querySelectorAll('.glass-card');
     
-    // Каскадное появление
-    cards.forEach((card, i) => {
-        card.style.opacity = '0';
-        card.style.animation = `slideIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${i * 0.12 + 0.3}s`;
-    });
-
-    // 3D Наклон
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
-            const r = card.getBoundingClientRect();
-            const x = e.clientX - r.left;
-            const y = e.clientY - r.top;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
             
-            const rx = ((y - r.height/2) / (r.height/2)) * -6;
-            const ry = ((x - r.width/2) / (r.width/2)) * 6;
-
-            card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.02)`;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (centerY - y) / 12; // Коэффициент наклона
+            const rotateY = (x - centerX) / 12;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
         });
-
+        
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
         });
     });
 
-    console.log("Visual Art Business Card v4.0 - Activated");
+    // --- Entrance Animations Cascade ---
+    const elements = document.querySelectorAll('.glass-card, .profile-header, .section-label');
+    elements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        
+        setTimeout(() => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        }, 100 * index + 300);
+    });
+
+    console.log("Visual Storytelling Card Engine - Initialized");
 });
