@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Matrix Rain Logic ---
     const characters = "01アァカサタナハマヤャラワガザダバパイィキシチニヒミリギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
     
-    const targetName = "ВАСИЛИЙ КУЗНЕЦОВ [V10]";
+    const targetName = "ВАСИЛИЙ КУЗНЕЦОВ";
     let isRevealingName = false;
     let startRevealTime = 0;
     const revealDuration = 4500; 
@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
         const isMobile = width < 768;
-        // V10 GIGA SCALE - Hardcoded font to bypass CSS issues
-        const baseSize = isMobile ? Math.min(width * 0.5, 350) : Math.min(width * 0.4, 1100);
+        // V11 Balanced Scale (Exactly 3x original V7.0 size)
+        const baseSize = isMobile ? Math.min(width * 0.3, 140) : Math.min(width * 0.2, 240);
         ctx.font = `900 ${baseSize}px 'Unbounded', 'Outfit', sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -179,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("MATRIX_CORE_VERSION: 10.0 [GIGA_SCALE] - Active");
+    console.log("MATRIX_CORE_VERSION: 11.0 [CALIBRATED] - Active");
 });
