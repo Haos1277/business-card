@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- Resize & Setup ---
     let width, height, columns, drops;
-    const fontSize = 11; 
+    const fontSize = 10; 
 
     const setupCanvas = () => {
         width = canvas.width = window.innerWidth;
@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
         const isMobile = width < 768;
-        // V13 Precise Scale (Hard limit of 50px as requested)
-        const baseSize = isMobile ? Math.min(width * 0.15, 50) : 50;
+        // V14 Harmony Scale (Hard limit of 40px as requested)
+        const baseSize = isMobile ? Math.min(width * 0.12, 40) : 40;
         ctx.font = `900 ${baseSize}px 'Unbounded', 'Outfit', sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -179,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("MATRIX_CORE_VERSION: 13.0 - Active");
+    console.log("MATRIX_CORE_VERSION: 14.0 - Harmony Active");
 });
