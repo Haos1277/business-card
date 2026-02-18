@@ -77,9 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
         const isMobile = width < 768;
-        // ULTRA-MASSIVE scale for maximum impact (3x previous V9.0)
-        // Filling up to 80% of screen width
-        const baseSize = isMobile ? Math.min(width * 0.22, 180) : Math.min(width * 0.15, 450);
+        // STUPIDLY LARGE SMOKE TEST SCALE (V9.2)
+        const baseSize = isMobile ? Math.min(width * 0.35, 250) : Math.min(width * 0.25, 700);
         ctx.font = `900 ${baseSize}px var(--font-head), 'Unbounded', sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -180,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("Matrix Rain Core V9.0 - Maximum Legibility Active");
+    console.log("MATRIX_CORE_VERSION: 9.2 [SMOKE_TEST] - Active");
 });
