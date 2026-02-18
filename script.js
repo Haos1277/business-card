@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
         const isMobile = width < 768;
-        // Increased base sizes dramatically
-        const baseSize = isMobile ? Math.min(width / 8, 55) : Math.min(width / 12, 110);
+        // Tripled the scale for massive impact
+        const baseSize = isMobile ? Math.min(width / 4, 150) : Math.min(width / 6, 320);
         ctx.font = `900 ${baseSize}px var(--font-head)`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
