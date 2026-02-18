@@ -19,13 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const barEl = document.querySelector('.loader-bar');
     
     const messages = [
-        "> INITIALIZING SYSTEM_CORE...",
-        "> DECRYPTING VISUAL_LAYERS...",
-        "> ACCESSING KINODEL_DATABASE...",
-        "> BYPASSING PHYSICAL_LIMITS...",
-        "> LOADING STORYTELLING_ENGINE...",
-        "> SYNCHRONIZING REALITY...",
-        "> STATUS: READY TO BROADCAST"
+        "> CONNECTING TO NEURAL_NET...",
+        "> LOADING MATRIX_RELOADED_V6.0...",
+        "> DECODING VISUAL_STORYTELLING_PROTOCOLS...",
+        "> INITIALIZING CINEMATIC_ENGINE...",
+        "> BYPASSING REALITY_LIMITS...",
+        "> SYNCHRONIZING WITH MULTIVERSE...",
+        "> STATUS: AWAKENING... [OK]",
+        "> WELCOME, VASILIY."
     ];
 
     let currentLine = 0;

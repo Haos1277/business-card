@@ -95,9 +95,9 @@ body {
     overflow-y: hidden;
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.85rem;
-    color: var(--accent);
+    color: #00ff41; /* Classic Matrix Green */
     line-height: 1.5;
-    text-shadow: 0 0 5px var(--accent-glow);
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
     position: relative;
 }
 
