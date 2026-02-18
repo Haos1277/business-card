@@ -46,94 +46,17 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* --- Matrix Terminal Preloader --- */
+/* --- Matrix Rain Preloader (V7.0) --- */
 #preloader {
     position: fixed; inset: 0;
     background: #000; z-index: 50000;
-    display: flex; justify-content: center; align-items: center;
-    padding: 2rem;
-}
-
-.terminal-container {
-    width: 100%;
-    max-width: 500px;
-    background: rgba(10, 10, 10, 0.9);
-    border: 1px solid rgba(0, 242, 255, 0.3);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 0 50px rgba(0, 242, 255, 0.1);
 }
 
-.terminal-header {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.terminal-header .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.terminal-title {
-    font-family: var(--font-head);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    margin-left: auto;
-}
-
-.terminal-body {
-    padding: 1.5rem;
-    height: 300px;
-    overflow-y: hidden;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.85rem;
-    color: #00ff41; /* Classic Matrix Green */
-    line-height: 1.5;
-    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
-    position: relative;
-}
-
-.terminal-body::before {
-    content: " ";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 2px, 3px 100%;
-    pointer-events: none;
-    z-index: 10;
-}
-
-.terminal-body::after {
-    content: "_";
-    animation: terminal-cursor 0.8s infinite;
-}
-
-@keyframes terminal-cursor { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-
-.terminal-line { margin-bottom: 0.4rem; opacity: 0; transform: translateY(5px); animation: terminal-line-fade 0.3s forwards; }
-@keyframes terminal-line-fade { to { opacity: 1; transform: translateY(0); } }
-
-.loader-bar-container {
-    width: 100%; height: 2px;
-    background: rgba(255, 255, 255, 0.05);
-    position: relative;
-    margin-top: auto;
-}
-
-.loader-bar {
-    position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-    background: var(--accent);
-    box-shadow: 0 0 20px var(--accent-glow);
-    transition: width 0.1s linear;
+#matrix-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 #preloader.loaded {

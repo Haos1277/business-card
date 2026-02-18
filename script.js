@@ -1,59 +1,118 @@
 /* 
-   Cinematic Motion Engine v5.0 
-   Logic: Hyper-Premium Interaction 
+   Authentic Matrix Digital Rain Engine v7.0
+   Design: Cinema Edition
+   Developer: Antigravity Art
 */
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elements ---
     const preloader = document.getElementById('preloader');
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    const appContainer = document.querySelector('.app-container');
     const dot = document.querySelector('.cursor-dot');
     const blob = document.querySelector('.cursor-blob');
-    const appContainer = document.querySelector('.app-container');
     
-    let mouse = { x: 0, y: 0 };
-    let dotPos = { x: 0, y: 0 };
-    let blobPos = { x: 0, y: 0 };
+    // --- Resize Canvas ---
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
     
-    // --- Cinematic Matrix Preloader Logic ---
-    const terminalBody = document.getElementById('terminal-body');
-    const barEl = document.querySelector('.loader-bar');
-    
-    const messages = [
-        "> CONNECTING TO NEURAL_NET...",
-        "> LOADING MATRIX_RELOADED_V6.0...",
-        "> DECODING VISUAL_STORYTELLING_PROTOCOLS...",
-        "> INITIALIZING CINEMATIC_ENGINE...",
-        "> BYPASSING REALITY_LIMITS...",
-        "> SYNCHRONIZING WITH MULTIVERSE...",
-        "> STATUS: AWAKENING... [OK]",
-        "> WELCOME, VASILIY."
-    ];
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        columns = Math.floor(width / fontSize);
+        drops = Array(columns).fill(1).map(() => Math.random() * -100);
+    });
 
-    let currentLine = 0;
+    // --- Matrix Rain Logic ---
+    const characters = "01アァカサタナハマヤャラワガザダバパイィキシチニヒミリギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
+    const fontSize = 16;
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(1).map(() => Math.random() * -100);
     
-    const typeLine = () => {
-        if (currentLine >= messages.length) {
-            setTimeout(revealSite, 600);
-            return;
+    // Name Formation Logic
+    const targetName = "ВАСИЛИЙ КУЗНЕЦОВ";
+    let isRevealingName = false;
+    let startRevealTime = 0;
+    const revealDuration = 3000; // 3 seconds to form name
+
+    // Position of name (centered)
+    const nameFontSize = 40;
+    const nameY = height / 2;
+    const nameXStart = (width - (targetName.length * nameFontSize * 0.7)) / 2;
+
+    const draw = () => {
+        // Subtle tail trail
+        ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.font = `${fontSize}px monospace`;
+        
+        for (let i = 0; i < drops.length; i++) {
+            const text = characters.charAt(Math.floor(Math.random() * characters.length));
+            
+            // Bright lead character
+            ctx.fillStyle = "#fff";
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            // Fading trail
+            ctx.fillStyle = "#0f0";
+            ctx.shadowBlur = 4;
+            ctx.shadowColor = "#0f0";
+            ctx.fillText(text, i * fontSize, (drops[i] - 1) * fontSize);
+            ctx.shadowBlur = 0;
+
+            if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
         }
 
-        const line = document.createElement('div');
-        line.className = 'terminal-line';
-        line.textContent = messages[currentLine];
-        terminalBody.appendChild(line);
+        if (isRevealingName) {
+            drawNameCoalescence();
+        }
         
-        // Scroll to bottom
-        terminalBody.scrollTop = terminalBody.scrollHeight;
+        requestAnimationFrame(draw);
+    };
 
-        // Progress bar sync
-        const progress = ((currentLine + 1) / messages.length) * 100;
-        barEl.style.width = `${progress}%`;
-
-        currentLine++;
+    const drawNameCoalescence = () => {
+        const now = Date.now();
+        const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
-        // Randomized typing speed for realism
-        const nextDelay = currentLine === messages.length ? 800 : Math.random() * 400 + 200;
-        setTimeout(typeLine, nextDelay);
+        ctx.font = `900 ${nameFontSize}px var(--font-head)`;
+        ctx.textAlign = "left";
+
+        for (let i = 0; i < targetName.length; i++) {
+            const char = targetName[i];
+            const x = nameXStart + (i * nameFontSize * 0.75);
+            
+            // Glow intensity increases with progress
+            const alpha = progress * 1.0;
+            const glow = progress * 20;
+
+            if (progress > 0.1) {
+                // Background shadow for readability
+                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                ctx.fillText(char, x, nameY);
+
+                // Flickering Matrix GLow
+                ctx.shadowBlur = glow;
+                ctx.shadowColor = "#00ff41";
+                ctx.fillStyle = `rgba(0, 255, 65, ${alpha})`;
+                
+                // Random characters before locking
+                const displayChar = (progress < 0.9 && Math.random() > progress) 
+                    ? characters.charAt(Math.floor(Math.random() * characters.length)) 
+                    : char;
+                
+                ctx.fillText(displayChar, x, nameY);
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        if (progress === 1) {
+            setTimeout(revealSite, 1000);
+        }
     };
 
     const revealSite = () => {
@@ -64,66 +123,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 800);
     };
 
-    // Kick off loader with small delay
-    setTimeout(typeLine, 500);
+    // Start Sequence
+    setTimeout(() => {
+        draw();
+        // Start name reveal after some initial rain
+        setTimeout(() => {
+            isRevealingName = true;
+            startRevealTime = Date.now();
+        }, 2000);
+    }, 100);
 
-    // --- 2. Advanced Cursor Engine ---
+    // --- Cursor & Interactions (Restored) ---
+    let mouse = { x: 0, y: 0 };
+    let dotPos = { x: 0, y: 0 };
+    let blobPos = { x: 0, y: 0 };
+
     window.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
     });
 
     const animateCursor = () => {
-        // Point: Instant but slightly smoothed
         dotPos.x += (mouse.x - dotPos.x) * 0.35;
         dotPos.y += (mouse.y - dotPos.y) * 0.35;
         dot.style.transform = `translate3d(${dotPos.x}px, ${dotPos.y}px, 0)`;
 
-        // Blob: Cinematic delay
         blobPos.x += (mouse.x - blobPos.x) * 0.12;
         blobPos.y += (mouse.y - blobPos.y) * 0.12;
         blob.style.transform = `translate3d(${blobPos.x}px, ${blobPos.y}px, 0)`;
-
         requestAnimationFrame(animateCursor);
     };
     animateCursor();
 
-    // --- 3. Magnetic & Hover Interaction ---
     const interactiveElements = document.querySelectorAll('.glass-card, .avatar-frame, .school-logo-box');
-    
     interactiveElements.forEach(el => {
         el.addEventListener('mousemove', (e) => {
             const rect = el.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-            
             const distanceX = e.clientX - centerX;
             const distanceY = e.clientY - centerY;
-            
-            // Magnetic effect (subtle move towards cursor)
             const strength = 12;
             el.style.transform = `translate3d(${distanceX / strength}px, ${distanceY / strength}px, 0) scale(1.02)`;
         });
-
-        el.addEventListener('mouseleave', () => {
-            el.style.transform = `translate3d(0, 0, 0) scale(1)`;
-        });
-
-        el.addEventListener('mouseenter', () => {
-            document.body.classList.add('cursor-hover');
-        });
-        el.addEventListener('mouseleave', () => {
-            document.body.classList.remove('cursor-hover');
-        });
+        el.addEventListener('mouseleave', () => { el.style.transform = `translate3d(0, 0, 0) scale(1)`; });
+        el.addEventListener('mouseenter', () => { document.body.classList.add('cursor-hover'); });
+        el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    // --- 4. School Logo Recovery ---
-    const schoolImg = document.querySelector('.school-img');
-    if (schoolImg) {
-        schoolImg.onerror = () => {
-            schoolImg.parentElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32" style="color:var(--accent)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v2h-2zm0 4h2v6h-2z"/></svg>`;
-        };
-    }
-
-    console.log("Cinematic Engine 5.0 - Status: Operational");
+    console.log("Matrix Rain Core V7.0 - Active");
 });
