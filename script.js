@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Matrix Rain Logic ---
     const characters = "01アァカサタナハマヤャラワガザダバパイィキシチニヒミリギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
     
-    const targetName = "ВАСИЛИЙ КУЗНЕЦОВ";
+    const targetName = "ВАСИЛИЙ КУЗНЕЦОВ [V10]";
     let isRevealingName = false;
     let startRevealTime = 0;
     const revealDuration = 4500; 
@@ -77,9 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min((now - startRevealTime) / revealDuration, 1);
         
         const isMobile = width < 768;
-        // V9.4 SUPER-ULTRA SCALE
-        const baseSize = isMobile ? Math.min(width * 0.45, 300) : Math.min(width * 0.35, 1000);
-        ctx.font = `900 ${baseSize}px var(--font-head), 'Unbounded', sans-serif`;
+        // V10 GIGA SCALE - Hardcoded font to bypass CSS issues
+        const baseSize = isMobile ? Math.min(width * 0.5, 350) : Math.min(width * 0.4, 1100);
+        ctx.font = `900 ${baseSize}px 'Unbounded', 'Outfit', sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
@@ -179,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("MATRIX_CORE_VERSION: 9.4 [SUPER_ULTRA] - Active");
+    console.log("MATRIX_CORE_VERSION: 10.0 [GIGA_SCALE] - Active");
 });
