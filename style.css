@@ -1,13 +1,13 @@
-/* Modern Fluid Reset */
+/* Modern Fluid Glass Design - v4.0 */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    cursor: none; /* Hide default cursor */
+    cursor: none; /* Кастомный курсор */
 }
 
 :root {
-    --bg: #020205;
+    --bg: #010103;
     --text: #ffffff;
     --sub: #94a3b8;
     --glass: rgba(255, 255, 255, 0.03);
@@ -28,118 +28,150 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 3rem 1.5rem;
+    padding: 3rem 1rem;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Cursor */
+/* --- Жидкий курсор --- */
 .cursor-dot {
     width: 6px; height: 6px; background: var(--accent);
     position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
     border-radius: 50%; z-index: 10000; pointer-events: none;
 }
 
-.cursor-outline {
+.cursor-blob {
     width: 32px; height: 32px; border: 1px solid var(--accent);
     position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
     border-radius: 50%; z-index: 9999; pointer-events: none;
-    transition: all 0.1s ease-out;
+    background: rgba(6, 182, 212, 0.05);
+    transition: width 0.3s, height 0.3s, background 0.3s;
 }
 
 .cursor-hover .cursor-dot { width: 10px; height: 10px; background: #fff; }
-.cursor-hover .cursor-outline { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-color: #fff; }
+.cursor-hover .cursor-blob { 
+    width: 60px; height: 60px; 
+    background: rgba(255,255,255,0.1); 
+    border-color: #fff;
+}
 
-/* Background Aurora */
-.background {
+/* --- Фон Aurora --- */
+.bg-wrapper {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
 }
 
-.blob {
-    position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.5;
-    animation: move 25s infinite alternate ease-in-out;
+.blob-gradient {
+    position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4;
+    animation: floating 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.b1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: var(--purple); }
-.b2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: var(--accent); animation-delay: -5s; }
-.b3 { top: 30%; left: 30%; width: 40vw; height: 40vw; background: #ec4899; opacity: 0.3; animation-delay: -10s; }
+.bg-1 { top: -10%; left: -5%; width: 50vw; height: 50vw; background: var(--purple); }
+.bg-2 { bottom: -10%; right: -5%; width: 55vw; height: 55vw; background: var(--accent); animation-delay: -7s; }
+.bg-3 { top: 35%; left: 35%; width: 35vw; height: 35vw; background: #ec4899; opacity: 0.25; animation-delay: -12s; }
 
-@keyframes move {
-    from { transform: translate(0, 0) rotate(0deg) scale(1); }
-    to { transform: translate(50px, 100px) rotate(90deg) scale(1.1); }
+@keyframes floating {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, 80px) scale(1.1); }
 }
 
-/* Page Layout */
-.container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 2rem; position: relative; }
+/* --- Центральная верстка --- */
+.layout { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 2rem; position: relative; }
 
-/* Profile Header */
-.profile { text-align: center; display: flex; flex-direction: column; align-items: center; }
+/* --- Заголовок --- */
+.hero { text-align: center; display: flex; flex-direction: column; align-items: center; }
 
-.avatar-box {
-    position: relative; width: 160px; height: 160px; margin-bottom: 1.5rem;
+.avatar-frame {
+    position: relative; width: 150px; height: 150px; margin-bottom: 1.5rem;
     border-radius: 50%; padding: 4px; background: linear-gradient(135deg, var(--purple), var(--accent));
-    box-shadow: 0 0 40px var(--accent-glow);
+    box-shadow: 0 0 30px var(--accent-glow);
 }
 
 .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); background: var(--bg); }
 
-.name {
-    font-family: var(--head); font-size: 3rem; font-weight: 700; letter-spacing: -0.04em;
-    margin-bottom: 0.5rem; background: linear-gradient(to bottom, #fff, #94a3b8);
+.main-name {
+    font-family: var(--head); font-size: 2.8rem; font-weight: 800; letter-spacing: -0.04em;
+    margin-bottom: 0.4rem; background: linear-gradient(to bottom, #fff, #94a3b8);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-.role-badge {
-    background: rgba(255,255,255,0.06); padding: 0.4rem 1.2rem; border-radius: 100px;
-    font-size: 0.85rem; font-weight: 600; color: var(--accent); border: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 1.25rem; backdrop-filter: blur(10px); text-transform: uppercase; letter-spacing: 0.1em;
+.special-badge {
+    background: rgba(255,255,255,0.08); padding: 0.4rem 1.1rem; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 700; color: var(--accent); border: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 1.25rem; backdrop-filter: blur(10px); text-transform: uppercase; letter-spacing: 0.12em;
 }
 
-.bio { color: var(--sub); font-size: 1.15rem; line-height: 1.5; }
-.highlight-text, .main-bio { display: block; color: #fff; font-weight: 500; }
-.sub-bio { font-size: 0.95rem; opacity: 0.8; }
+.bio-text { color: var(--sub); font-size: 1.1rem; line-height: 1.5; }
+.bio-main { display: block; color: #fff; font-weight: 600; margin-bottom: 4px; }
+.bio-sub { font-size: 0.9rem; opacity: 0.7; }
 
-/* Sections */
-.label { font-family: var(--head); color: var(--sub); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.75rem; opacity: 0.6; }
+/* --- Секции --- */
+.group-label, .label { 
+    font-family: var(--head); color: var(--sub); font-size: 0.75rem; 
+    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.75rem; 
+    padding-left: 0.5rem; opacity: 0.5; 
+}
 
-/* Glass Cards */
+/* --- Стеклянные карточки --- */
 .glass-card {
     background: var(--glass); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 1.25rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;
-    color: var(--text); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    padding: 1.15rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;
+    color: var(--text); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; overflow: hidden;
 }
 
 .glass-card:hover {
     background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2);
-    transform: translateY(-5px) scale(1.02); box-shadow: 0 20px 50px -15px rgba(0,0,0,0.7);
+    transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 40px -10px rgba(0,0,0,0.6);
 }
 
-.premium { border-color: rgba(6, 182, 212, 0.4); background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.05)); }
-.premium-glow { position: absolute; inset: 0; background: radial-gradient(circle at 100% 0%, var(--accent-glow), transparent); opacity: 0.5; }
+.school-card { border-color: rgba(6, 182, 212, 0.3); background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(139, 92, 246, 0.05)); }
+.school-glow { position: absolute; inset: 0; background: radial-gradient(circle at 100% 0%, var(--accent-glow), transparent); opacity: 0.4; }
 
-/* Icons */
-.icon-box { width: 54px; height: 54px; border-radius: 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; transition: 0.3s; flex-shrink: 0; }
-.glass-card:hover .icon-box { background: #fff; color: #000; transform: rotate(-8deg) scale(1.1); }
+/* --- Иконки --- */
+.box-icon { 
+    width: 50px; height: 50px; border-radius: 15px; 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    display: flex; justify-content: center; align-items: center; 
+    transition: 0.4s; flex-shrink: 0; 
+    color: #fff; /* Явный белый цвет */
+}
 
-.text-box { flex: 1; display: flex; flex-direction: column; }
-.title { font-weight: 600; font-size: 1.1rem; }
-.subtitle { font-size: 0.9rem; color: var(--sub); margin-top: 2px; }
-.arrow { font-size: 1.4rem; opacity: 0.3; transition: 0.3s; }
-.glass-card:hover .arrow { opacity: 1; transform: translateX(8px); color: var(--accent); }
+.glass-card:hover .box-icon { background: #fff; color: #000; transform: rotate(-8deg) scale(1.05); }
 
-/* Grid */
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.small { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
-.mini-avatar, .mini-icon { width: 48px; height: 48px; border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; }
-.mini-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.small .card-name { font-weight: 600; font-size: 1.05rem; }
+/* Исправление видимости SVG */
+.box-icon svg, .circle-icon svg {
+    width: 24px; height: 24px;
+    display: block; opacity: 1 !important;
+}
 
-/* Animations */
-.slide-in { opacity: 0; animation: slideUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
+.box-content { flex: 1; display: flex; flex-direction: column; }
+.box-title { font-weight: 600; font-size: 1.05rem; }
+.box-subtitle { font-size: 0.85rem; color: var(--sub); margin-top: 1px; }
+.box-arrow { font-size: 1.2rem; opacity: 0.2; transition: 0.3s; }
+.glass-card:hover .box-arrow { opacity: 1; transform: translateX(6px); color: var(--accent); }
 
-.footer { text-align: center; color: rgba(255,255,255,0.25); font-size: 0.85rem; margin-top: 3rem; }
+/* --- Сетка (Grid) --- */
+.flex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-card { flex-direction: column; align-items: center; padding: 1.5rem; text-align: center; }
 
-@media (max-width: 420px) { .name { font-size: 2.5rem; } .glass-card { padding: 1rem; } }
-@media (hover: none) { .cursor-dot, .cursor-outline { display: none; } * { cursor: auto; } }
+.img-preview, .circle-icon { 
+    width: 50px; height: 50px; border-radius: 14px; 
+    overflow: hidden; background: rgba(255,255,255,0.06); 
+    border: 1px solid rgba(255,255,255,0.12); 
+    display: flex; align-items: center; justify-content: center; 
+    margin-bottom: 0.75rem; color: #fff;
+}
+
+.img-preview img { width: 100%; height: 100%; object-fit: cover; }
+.grid-title { font-weight: 600; font-size: 0.95rem; }
+
+/* --- Анимации появления --- */
+.slideUp { opacity: 0; animation: slideIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+.bottom-info { text-align: center; color: rgba(255,255,255,0.25); font-size: 0.8rem; margin-top: 2rem; }
+
+/* --- Адаптивность --- */
+@media (max-width: 420px) { .main-name { font-size: 2.3rem; } .glass-card { padding: 1rem; } }
+@media (hover: none) { .cursor-dot, .cursor-blob { display: none; } * { cursor: auto; } }
