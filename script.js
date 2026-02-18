@@ -179,5 +179,5 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => { document.body.classList.remove('cursor-hover'); });
     });
 
-    console.log("MATRIX_CORE_VERSION: 9.2 [SMOKE_TEST] - Active");
+    console.log("MATRIX_CORE_VERSION: 9.3 [FINAL_BALANCE] - Active");
 });
